@@ -39,13 +39,13 @@ def run_logistic_regression(df_arrests):
     y_train = df_arrests_train[target]
     X_test = df_arrests_test[features]
 
-    # training with GridSearchCV with 3 values of C, 5-fold CV
+    # GridSearchCV with 3 values of C, 5-fold CV
     param_grid = {'C': [0.01, 1.0, 1.0]}
     lr_model = lr(solver='liblinear', max_iter=1000, random_state=42)
     gs_cv = GridSearchCV(estimator=lr_model, param_grid=param_grid, cv=5, scoring='accuracy')
     gs_cv.fit(X_train, y_train)
 
-    # report best hyperparameter
+    # print best hyperparameter
     best_c = gs_cv.best_params_['C']
     print(f"\nQ: What was the optimal value for C?")
     print(f"A: {best_c}")
@@ -64,7 +64,7 @@ def run_logistic_regression(df_arrests):
     df_arrests_test = df_arrests_test.copy()
     df_arrests_test['pred_lr'] = gs_cv.predict_proba(X_test)[:, 1]
 
-    # save for 4 and 5
+    # save for parts 4 and 5
     df_arrests_train.to_csv('data/df_arrests_train.csv', index=False)
     df_arrests_test.to_csv('data/df_arrests_test.csv', index=False)
 

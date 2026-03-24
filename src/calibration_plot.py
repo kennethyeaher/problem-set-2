@@ -15,6 +15,7 @@ Extra Credit
 
 # Import any further packages you may need for PART 5
 from sklearn.calibration import calibration_curve
+from sklearn.metrics import roc_auc_score
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -80,3 +81,22 @@ def run_calibration_plots(df_arrests_test):
     
     print(f"\nQ: Which model is more calibrated?")
     print(f"A: {better} (lower calibration error).")
+
+    # extra credit 
+    ppv_lr = df_arrests_test.nlargest(50, 'pred_lr')['y'].mean()
+    ppv_dt = df_arrests_test.nlargest(50, 'pred_dt')['y'].mean()
+    print(f"\nPPV for Logistic Regression (top 50): {ppv_lr:.4f}")
+    print(f"PPV for Decision Tree (top 50):       {ppv_dt:.4f}")
+
+    auc_lr = roc_auc_score(y, lr)
+    auc_dt = roc_auc_score(y, dt)
+    print(f"\nAUC for Logistic Regression: {auc_lr:.4f}")
+    print(f"AUC for Decision Tree:       {auc_dt:.4f}")
+
+    ppv_winner = "Logistic Regression" if ppv_lr > ppv_dt else "Decision Tree"
+    auc_winner = "Logistic Regression" if auc_lr > auc_dt else "Decision Tree"
+    print(f"\nQ: Do both metrics agree that one model is more accurate?")
+    if ppv_winner == auc_winner:
+        print(f"A: Yes, both agree {ppv_winner} is more accurate.")
+    else:
+        print(f"A: No, PPV favors {ppv_winner}, AUC favors {auc_winner}.")
