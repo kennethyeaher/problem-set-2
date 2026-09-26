@@ -1,5 +1,9 @@
 # Regression and Decision Trees
 
+![Python](docs/readme/badges/python-3776AB.svg)
+![pandas](docs/readme/badges/pandas-150458.svg)
+![scikit-learn](docs/readme/badges/scikitlearn-F7931E.svg)
+
 A coursework comparison of logistic regression and decision trees using arrest records. The code constructs a one year rearrest outcome, derives charge and prior arrest features, searches model settings with cross validation, and compares calibration and ranking metrics.
 
 ## My contribution
@@ -11,6 +15,12 @@ I implemented preprocessing, model fitting, and evaluation modules on top of the
 - [Preprocessing](src/preprocessing.py) defines the outcome and time based features.
 - [Logistic regression](src/logistic_regression.py) and [decision trees](src/decision_tree.py) use grid search with five fold cross validation.
 - [Calibration](src/calibration_plot.py) compares probabilities and includes AUC and precision among the top 50 ranked records.
+
+## What the comparison is designed to show
+
+The logistic regression model adjusts regularization through `C`; the decision tree varies maximum depth. Both use five fold cross validation. Calibration asks whether predicted probabilities agree with observed frequencies, while AUC and precision among the top 50 records ask different ranking questions.
+
+Keeping those questions separate is central to the exercise. A better ranking score does not by itself establish reliable probabilities, fair treatment across groups, or suitability for real decisions.
 
 ## Running and current limitations
 
